@@ -1,0 +1,29 @@
+---
+- name: Install Pi-hole on Raspberry Pi
+  hosts: pi-node-1
+  become: true
+  tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Ensure curl is installed
+      apt:
+        name: curl
+        state: present
+
+    - name: Install Pi-hole unattended
+      shell: |
+        curl -sSL https://install.pi-hole.net | bash /dev/stdin --unattended
+      args:
+        executable: /bin/bash
+      environment:
+        # Optional: Skip OS check if you are installing on an OS not explicitly supported.
+        PIHOLE_SKIP_OS_CHECK: "1"
+      register: pihole_install
+
+    - name: Display installation output
+      debug:
+        var: pihole_install.stdout_lines
+

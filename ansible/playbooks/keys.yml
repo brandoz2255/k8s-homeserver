@@ -1,0 +1,22 @@
+- name: Distribute Control Node's Public SSH Key
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure dulc3 user exists
+      user:
+        name: dulc3
+        state: present
+        shell: /bin/bash
+
+    - name: Ensure .ssh directory exists for dulc3 user
+      file:
+        path: /home/dulc3/.ssh
+        state: directory
+        owner: dulc3
+        group: dulc3
+        mode: '0700'
+    - name: Add control node's public key to dulc3 authorized_keys
+      authorized_key:
+        user: dulc3
+        state: present
+        key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/control_node_homeserver') }}"
