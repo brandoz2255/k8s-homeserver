@@ -1,0 +1,35 @@
+# nginx-deploy.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-pgadmin
+  template:
+    metadata:
+      labels:
+        app: nginx-pgadmin
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine
+          ports:
+            - containerPort: 443
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-pgadmin
+              mountPath: /etc/nginx
+              #subPath: nginx.conf
+            - name: tls
+              mountPath: /etc/nginx/certs
+              readOnly: true
+      volumes:
+        - name: nginx-config-pgadmin
+          configMap:
+            name: nginx-config-pgadmin
+        - name: tls
+          secret:
+            secretName: pgadmin-tls

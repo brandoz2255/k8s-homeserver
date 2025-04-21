@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: command-fr
+  namespace: command
+  labels:
+    app: command-fr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: command-fr
+  template:
+    metadata:
+      labels:
+        app: command-fr
+    spec:
+      imagePullSecrets:
+        - name: my-dockerhub-secret
+      containers:
+        - name: command-fr
+          image: dulc3/cyber-command-fr:0.0.1
+          ports:
+            - containerPort: 80
+          env:
+            - name: COMMAND_EMAIL
+              value: command-email
+            - name: COMMAND_PASSWORD
+              value: command-password

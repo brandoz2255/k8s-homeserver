@@ -1,0 +1,12 @@
+# pv-pgadmin.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pgadmin-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/pgadmin"

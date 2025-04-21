@@ -1,0 +1,36 @@
+---
+- name: Convert Raspberry Pi to Headless Server (Selective GUI Removal)
+  hosts: pi-node-1
+  become: true
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Remove display manager (lightdm)
+      apt:
+        name: lightdm
+        state: absent
+        autoremove: true
+        purge: true
+
+    - name: Remove desktop environment packages (raspberrypi-ui-mods and lxde)
+      apt:
+        name:
+          - raspberrypi-ui-mods
+          - lxde
+          - lxde-common
+          - lxsession
+        state: absent
+        autoremove: true
+        purge: true
+
+    - name: Set default target to multi-user (headless mode)
+      command: systemctl set-default multi-user.target
+      changed_when: false
+
+    - name: Reboot the system
+      reboot:
+        msg: "Rebooting to complete GUI removal."
+        pre_reboot_delay: 5
+

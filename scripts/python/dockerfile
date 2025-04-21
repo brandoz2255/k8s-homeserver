@@ -1,0 +1,16 @@
+# 1. Partimos de una imagen ligera de Python
+FROM python:3.11-slim
+
+# 2. Definimos el directorio de trabajo dentro del contenedor
+WORKDIR /app
+
+# 3. Copiamos el requirements y los instalamos
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 4. Copiamos el script TUI
+COPY generate_k8s_tui.py .
+
+# 5. Definimos el comando por defecto al arrancar el contenedor
+ENTRYPOINT ["python3", "generate_k8s_tui.py"]
+

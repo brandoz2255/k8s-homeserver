@@ -1,0 +1,5 @@
+resources:
+  - postgres/
+  - pgadmin/
+  - cert-manager/
+  - ingress/
