@@ -21,8 +21,8 @@
 set -euo pipefail
 
 # ---- Configuration -----------------------------------------------------------
-SECRET_DIR="$HOME/Documents/github/home-server/secrets"
-PROJECT_DIR="$HOME/Documents/github/home-server" # adjust if your path differs
+SECRET_DIR="$HOME/Documents/github/asecretDir/"
+PROJECT_DIR="$HOME/Documents/github/aDir" # adjust if your path differs
 
 # ---- Prep --------------------------------------------------------------------
 [[ -d "$SECRET_DIR" ]] || {
